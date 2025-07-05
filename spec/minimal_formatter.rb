@@ -1,10 +1,14 @@
 require 'rspec/core/formatters/base_formatter'
 
 class MinimalFormatter < RSpec::Core::Formatters::BaseFormatter
-  RSpec::Core::Formatters.register self, :example_group_started, :example_passed, :example_failed, :dump_summary
+  RSpec::Core::Formatters.register self,
+    :example_group_started,
+    :example_passed,
+    :example_failed,
+    :dump_summary
 
   GREEN = "\e[32m"
-  RED = "\e[31m"
+  RED   = "\e[31m"
   RESET = "\e[0m"
 
   def initialize(output)
@@ -28,8 +32,14 @@ class MinimalFormatter < RSpec::Core::Formatters::BaseFormatter
   def dump_summary(summary)
     @results.each do |group, outcomes|
       output.puts "\n#{group}"
-      outcomes[:passed].each { |desc| output.puts "#{GREEN}  Passed: #{desc}#{RESET}" }
-      outcomes[:failed].each { |desc| output.puts "#{RED}  Failed: #{desc}#{RESET}" }
+      unless outcomes[:passed].empty?
+        output.puts "#{GREEN}  Passed:#{RESET}"
+        outcomes[:passed].each { |desc| output.puts "#{GREEN}    - #{desc}#{RESET}" }
+      end
+      unless outcomes[:failed].empty?
+        output.puts "#{RED}  Failed:#{RESET}"
+        outcomes[:failed].each { |desc| output.puts "#{RED}    - #{desc}#{RESET}" }
+      end
     end
 
     total = summary.example_count
