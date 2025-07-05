@@ -38,11 +38,11 @@ class LinkedList
     return nil if empty?
     return clear_list if single_node?
 
-    @tail = find_penultimate
+    @tail = at(-1)
     @tail.next_node = nil
   end
 
-  def size
+  def length
     count
   end
 
@@ -62,6 +62,7 @@ class LinkedList
   end
 
   def at(index)
+    index = length + index if index.negative?
     each_with_index do |node, i|
       return node if i == index
     end
@@ -86,12 +87,6 @@ class LinkedList
   def clear_list
     @head = nil
     @tail = nil
-  end
-
-  def find_penultimate
-    current = @head
-    current = current.next_node until current.next_node == @tail
-    current
   end
 end
 
