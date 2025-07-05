@@ -10,8 +10,12 @@ class LinkedList
     @tail = tail
   end
 
-  def each(&block)
-    each_node(&block)
+  def each
+    current = @head
+    while current
+      yield current
+      current = current.next_node
+    end
   end
 
   def append(value)
@@ -39,19 +43,34 @@ class LinkedList
   end
 
   def size
-    count = 0
-    each_node { count += 1 }
     count
   end
 
-  def at(index)
-    current = @head
-    index.times do
-      raise 'Index out of bounds' if current.nil?
-
-      current = current.next_node
+  def find(value = nil, &block)
+    if block_given?
+      super(&block) # fallback to Enumerable#find
+    else
+      each_with_index do |node, index|
+        return index if node.value == value
+      end
+      nil
     end
-    current
+  end
+
+  def contains?(item)
+    !!find(item)
+  end
+
+  def at(index)
+    each_with_index do |node, i|
+      return node if i == index
+    end
+    raise 'Index out of bounds'
+  end
+
+  def to_s
+    nodes = map { |node| "( #{node.value} )" }
+    "#{nodes.join(' -> ')} -> nil"
   end
 
   private
@@ -74,15 +93,6 @@ class LinkedList
     current = current.next_node until current.next_node == @tail
     current
   end
-
-  def each_node
-    current = @head
-    while current
-      yield current
-      current = current.next_node
-    end
-  end
-
 end
 
 class Node
