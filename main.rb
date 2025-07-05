@@ -13,3 +13,5 @@ list.append('turtle')
 
 # puts list
 puts list.at(-1).value
+puts list.at(0).value
+puts list.at(1).value

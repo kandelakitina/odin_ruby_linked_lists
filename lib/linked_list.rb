@@ -38,11 +38,11 @@ class LinkedList
     return nil if empty?
     return clear_list if single_node?
 
-    @tail = at(-1)
+    @tail = at(-2)
     @tail.next_node = nil
   end
 
-  def length
+  def size
     count
   end
 
@@ -62,11 +62,32 @@ class LinkedList
   end
 
   def at(index)
-    index = length + index if index.negative?
+    index = size + index if index.negative?
+    return if index.negative? || index >= size || empty?
+
     each_with_index do |node, i|
       return node if i == index
     end
-    raise 'Index out of bounds'
+  end
+
+  def insert_at(value, index)
+    current_node = at(index)
+    prev_node = at(index - 1)
+    prev_node.next_node = Node.new(value, current_node)
+  end
+
+  def remove_at(index)
+    current_node = at(index)
+    return nil if current_node.nil?
+
+    if index.zero?
+      @head = @head.next_node
+      @tail = nil if @head.nil?
+    else
+      prev_node = at(index - 1)
+      prev_node.next_node = current_node.next_node
+      @tail = prev_node if current_node == @tail
+    end
   end
 
   def to_s
