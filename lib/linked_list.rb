@@ -3,11 +3,12 @@
 class LinkedList
   include Enumerable
 
-  attr_accessor :head, :tail
+  attr_accessor :head, :tail, :size
 
-  def initialize(head = nil, tail = nil)
-    @head = head
-    @tail = tail
+  def initialize
+    @head = nil
+    @tail = nil
+    @size = 0
   end
 
   def each
@@ -26,12 +27,14 @@ class LinkedList
       @tail.next_node = node
     end
     @tail = node
+    @size += 1
   end
 
   def prepend(value)
     node = Node.new(value, @head)
     @tail = node if empty?
     @head = node
+    @size += 1
   end
 
   def pop
@@ -40,10 +43,7 @@ class LinkedList
 
     @tail = at(-2)
     @tail.next_node = nil
-  end
-
-  def size
-    count
+    @size -= 1
   end
 
   def find(value = nil, &block)
@@ -62,8 +62,8 @@ class LinkedList
   end
 
   def at(index)
-    index = size + index if index.negative?
-    return if index.negative? || index >= size || empty?
+    index = @size + index if index.negative?
+    return nil if index.negative? || index >= @size || empty?
 
     each_with_index do |node, i|
       return node if i == index
@@ -71,9 +71,13 @@ class LinkedList
   end
 
   def insert_at(value, index)
-    current_node = at(index)
+    return prepend(value) if index.zero?
+    return append(value) if index == @size
+
     prev_node = at(index - 1)
+    current_node = prev_node.next_node
     prev_node.next_node = Node.new(value, current_node)
+    @size += 1
   end
 
   def remove_at(index)
@@ -81,13 +85,11 @@ class LinkedList
     return nil if current_node.nil?
 
     if index.zero?
-      @head = @head.next_node
-      @tail = nil if @head.nil?
+      remove_head
     else
-      prev_node = at(index - 1)
-      prev_node.next_node = current_node.next_node
-      @tail = prev_node if current_node == @tail
+      remove_node(index)
     end
+    @size -= 1
   end
 
   def to_s
@@ -108,6 +110,19 @@ class LinkedList
   def clear_list
     @head = nil
     @tail = nil
+    @size = 0
+  end
+
+  def remove_head
+    @head = @head.next_node
+    @tail = nil if @head.nil?
+  end
+
+  def remove_node(index)
+    prev_node = at(index - 1)
+    current_node = prev_node.next_node
+    prev_node.next_node = current_node.next_node
+    @tail = prev_node if current_node == @tail
   end
 end
 

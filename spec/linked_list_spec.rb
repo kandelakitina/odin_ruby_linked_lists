@@ -99,7 +99,6 @@ RSpec.describe LinkedList do
       list.insert_at('bird', 1)
       expect(list.at(1).value).to eq('bird')
     end
-
   end
   describe '#remove_at' do
     it 'removes node at specific position' do
@@ -132,6 +131,27 @@ RSpec.describe LinkedList do
     it 'returns nil when removing out of bounds' do
       list.append('dog')
       expect(list.remove_at(5)).to be_nil
+    end
+
+    it 'removes node at negative index' do
+      list.append('dog')
+      list.append('cat')
+      list.append('bird')
+      list.remove_at(-1)
+      expect(list.tail.value).to eq('cat')
+    end
+
+    it 'removes node at negative index from the end' do
+      list.append('dog')
+      list.append('cat')
+      list.append('bird')
+      list.remove_at(-2)
+      expect(list.head.next_node.value).to eq('bird')
+    end
+
+    it 'returns nil when removing out of bounds with negative index' do
+      list.append('dog')
+      expect(list.remove_at(-5)).to be_nil
     end
   end
 end
