@@ -45,7 +45,13 @@ class LinkedList
   end
 
   def at(index)
-    node_at(index)
+    current = @head
+    index.times do
+      raise 'Index out of bounds' if current.nil?
+
+      current = current.next_node
+    end
+    current
   end
 
   private
@@ -77,15 +83,6 @@ class LinkedList
     end
   end
 
-  def node_at(index)
-    current = @head
-    index.times do
-      raise 'Index out of bounds' if current.nil?
-
-      current = current.next_node
-    end
-    current
-  end
 end
 
 class Node
