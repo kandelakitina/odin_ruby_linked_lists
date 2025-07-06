@@ -34,6 +34,8 @@ nix develop
 
 This will configure the environment with the necessary dependencies, allowing you to run tests and scripts consistently across different setups.
 
+Run `rspec spec/linked_list_spec.rb` for tests and `ruby main` to run the app.
+
 ## Learning Objectives
 
 - Understand linked list data structures
