@@ -40,4 +40,16 @@ Run `rspec spec/linked_list_spec.rb` for tests and `ruby main` to run the app.
 
 - Understand linked list data structures
 - Write object-oriented Ruby code
-- Learn how to set up a reproducible environment with Nix
+- Explore recursive approaches to list operations such as traversal, insertion, and deletion, to write more elegant and functional code.
+
+## Potential Recursive Refactoring Ideas
+
+The current linked list implementation uses iterative approaches for traversal in methods such as `each`, `pop`, `find`, `at`, `insert_at`, and `remove_at`. To explore cleaner solutions, consider refactoring these methods to use recursion, which can enhance code clarity and demonstrate the power of recursive algorithms:
+
+- **`each`**: Use a recursive helper to traverse nodes, yielding each to the block.
+- **`pop`**: Recurse to find the second-to-last node for updating `@tail`.
+- **`find`**: Recursively search through nodes for a value or condition.
+- **`at`**: Navigate to the index by recursion, decreasing the counter.
+- **`insert_at` and `remove_at`**: Recursively descend to the target position to insert or remove nodes.
+
+Implementing these ideas will deepen your understanding of recursion and improve your design skills for linked data structures.
