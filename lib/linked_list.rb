@@ -89,7 +89,9 @@ class LinkedList
     prev_node = at(index - 1)
     return nil if prev_node.nil? || prev_node.next_node.nil?
 
-    remove_next(prev_node)
+    current_node = prev_node.next_node
+    prev_node.next_node = current_node.next_node
+    @tail = prev_node if current_node == @tail
     @size -= 1
   end
 
@@ -117,11 +119,5 @@ class LinkedList
   def remove_head
     @head = @head.next_node
     @tail = nil if @head.nil?
-  end
-
-  def remove_next(prev_node)
-    current_node = prev_node.next_node
-    prev_node.next_node = current_node.next_node
-    @tail = prev_node if current_node == @tail
   end
 end
