@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'node'
+
 class LinkedList
   include Enumerable
 
@@ -123,14 +125,5 @@ class LinkedList
     current_node = prev_node.next_node
     prev_node.next_node = current_node.next_node
     @tail = prev_node if current_node == @tail
-  end
-end
-
-class Node
-  attr_accessor :value, :next_node
-
-  def initialize(value = nil, next_node = nil)
-    @value = value
-    @next_node = next_node
   end
 end
